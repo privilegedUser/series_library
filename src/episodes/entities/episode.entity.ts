@@ -10,7 +10,7 @@ export class Episode {
     @Column()
     name: string;
 
-    @Column({ name: "release_date", type: "datetime" })
+    @Column({ name: "release_date", type: "timestamptz" })
     releaseDate: Date;
 
     @Column({ name: "episode_code" })
@@ -23,6 +23,6 @@ export class Episode {
     @OneToMany(() => Comment, (comment) => comment.episode)
     episodeComments: Comment[];
 
-    @Column({ name: "created_at", type: "datetime", default: "CURRENT_TIMESTAMP" })
+    @Column({ name: "created_at", type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 }

@@ -18,6 +18,6 @@ export class Location {
     @OneToMany(() => Character, (character) => character.location)
     characters: Character[];
 
-    @Column({ name: "created_at", type: "datetime", default: "CURRENT_TIMESTAMP" })
+    @Column({ name: "created_at", type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 }

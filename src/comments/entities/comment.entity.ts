@@ -6,7 +6,7 @@ export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "text", length: 250 })
+    @Column({ type: "varchar", length: 250 })
     comment: string;
 
     @Column({ name: "ip_address_location "})
@@ -19,6 +19,6 @@ export class Comment {
     @JoinColumn({ name: "episode_id" })
     episode: Episode;
 
-    @Column({ name: "created_at", type: "datetime", default: "CURRENT_TIMESTAMP" })
+    @Column({ name: "created_at", type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 }

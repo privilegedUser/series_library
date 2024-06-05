@@ -7,6 +7,7 @@ import { CharactersModule } from './characters/characters.module';
 import { LocationsModule } from './locations/locations.module';
 import { EpisodesModule } from './episodes/episodes.module';
 import { CommentsModule } from './comments/comments.module';
+import { join } from 'path';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { CommentsModule } from './comments/comments.module';
       database: process.env.POSTGRES_DATABASE,
       synchronize: true,
       autoLoadEntities: true,
+      entities: [join(process.cwd(), "dist/**/*.entity.js")]
     }),
     CharactersModule,
     LocationsModule,
