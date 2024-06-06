@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Character } from './entities/character.entity';
 import { Repository } from 'typeorm';
 import { Episode } from 'src/episodes/entities/episode.entity';
 import { RetrieveCharactersDto } from './dto/retrieve-characters.dto';
+import { Gender } from './models/gender';
+import { Status } from './models/status';
 
 @Injectable()
 export class CharactersService {
@@ -15,6 +17,12 @@ export class CharactersService {
 
   async create(createCharacterDto: CreateCharacterDto) {
     var character = this.characterRepository.create(createCharacterDto);
+
+    if (!Object.values(Gender).includes(character.gender))
+      throw new BadRequestException("Enter valid gender: 'MALE' | 'FEMALE'");
+
+    if (!Object.values(Status).includes(character.status))
+      throw new BadRequestException("Enter valid status: 'ALIVE' | 'DEAD' | 'UNKNOWN'");
 
     if (createCharacterDto.episodeIds)
       character.episodes = createCharacterDto.episodeIds.map(id => ({
