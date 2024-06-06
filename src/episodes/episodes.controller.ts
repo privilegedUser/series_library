@@ -22,6 +22,11 @@ export class EpisodesController {
     return this.episodesService.findOne(+id);
   }
 
+  @Get('character/:characterId')
+  findForCharacter(@Param('characterId') id: string) {
+    return this.episodesService.findAllForCharacter(+id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEpisodeDto: UpdateEpisodeDto) {
     return this.episodesService.update(+id, updateEpisodeDto);

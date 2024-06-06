@@ -20,7 +20,7 @@ export class CommentsService {
 
   async findAll() {
     return await this.commentRepository.find({
-      order: { createdAt: "desc" }
+      order: { createdAt: "DESC" }
     });
   }
 

@@ -24,4 +24,7 @@ export class Episode {
 
     @Column({ name: "created_at", type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
+
+    @Column({ name: "comment_count", nullable: true })
+    commentCount?: number;
 }

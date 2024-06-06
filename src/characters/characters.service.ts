@@ -3,7 +3,7 @@ import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Character } from './entities/character.entity';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Episode } from 'src/episodes/entities/episode.entity';
 import { RetrieveCharactersDto } from './dto/retrieve-characters.dto';
 
@@ -27,29 +27,6 @@ export class CharactersService {
 
   async findAll(retrieveCharactersDto: RetrieveCharactersDto) {
     const { filterLocation, filterGender, filterStatus, sortAscending, sortByName, sortByGender } = retrieveCharactersDto;
-    // const filterOptions: FindOptionsWhere<Character> | FindOptionsWhere<Character>[] = {
-    //   ...(filterLocation ? { location: { id: filterLocation } } : {}),
-    //   ...(filterStatus ? { status: filterStatus } : {}),
-    //   ...(filterGender ? { gender: filterGender } : {})
-    // };
-
-    // const sortOrder = sortAscending ? "ASC" : "DESC"
-
-    // const sortOptions: FindOptionsOrder<Character> = {
-    //   ...(sortByName ? { firstName: sortOrder } : {}),
-    //   ...(sortByGender ? { gender: sortOrder } : {})
-    // }
-
-    // var characters = await this.characterRepository.find({
-    //   where: filterOptions,
-    //   relations: {
-    //     location: true,
-    //     episodes: true
-    //   },
-    //   order: sortOptions
-    // });
-
-    // return characters;
 
     const query = this.characterRepository.createQueryBuilder('character');
 

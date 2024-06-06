@@ -3,7 +3,7 @@ import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { UpdateEpisodeDto } from './dto/update-episode.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Episode } from './entities/episode.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EpisodesService {
@@ -19,25 +19,21 @@ export class EpisodesService {
   }
 
   async findAll() {
-    return await this.episodeRepository.find({
-      relations: {
-        characters: true,
-        episodeComments: true
-      },
-      order: {
-        releaseDate: "ASC"
-      }
-    });
+    return this.episodeRepository
+      .createQueryBuilder("episode")
+      .leftJoinAndSelect("episode.characters", "characters")
+      .leftJoinAndSelect("episode.episodeComments", "comments")
+      .loadRelationCountAndMap("episode.commentCount", "episode.episodeComments", "comments")
+      .select(["episode", "characters"])
+      .orderBy('episode.release_date', "ASC")
+      .getMany();
   }
 
-  // async findAllForCharacter(characterId: number) {
-  //   const query = this.episodeRepository
-  //     .createQueryBuilder('episode')
-  //     .leftJoinAndMapMany('character', 'character')
-  //     .andWhere('character.id = :characterId', { characterId });
-
-
-  // }
+  async findAllForCharacter(characterId: number) {
+    return this.episodeRepository
+      .createQueryBuilder("episode")
+      .getMany();
+  }
 
   async findOne(id: number) {
     return await this.episodeRepository.findOne({
