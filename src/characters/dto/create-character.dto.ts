@@ -5,8 +5,8 @@ export class CreateCharacterDto {
     firstName: string;
     lastName: string;
     status: Status;
-    stateOfOrigin: string;
+    stateOfOrigin?: string;
     gender: Gender;
-    locationId: number;
-    episodeIds: number[];
+    locationId?: number;
+    episodeIds?: number[];
 }

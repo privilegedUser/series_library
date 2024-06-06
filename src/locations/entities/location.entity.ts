@@ -10,10 +10,10 @@ export class Location {
     name: string;
 
     @Column()
-    longitude: number;
+    longitude: string;
 
     @Column()
-    latitude: number;
+    latitude: string;
 
     @OneToMany(() => Character, (character) => character.location)
     characters: Character[];

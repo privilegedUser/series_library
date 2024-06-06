@@ -2,13 +2,21 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { catchError } from 'rxjs';
+import { LocationsService } from 'src/locations/locations.service';
 
 @Controller('characters')
 export class CharactersController {
-  constructor(private readonly charactersService: CharactersService) {}
+  constructor(
+    private readonly charactersService: CharactersService
+  ) {}
 
   @Post()
   create(@Body() createCharacterDto: CreateCharacterDto) {
+    const locationId = createCharacterDto.locationId;
+    // if (locationId && !this.locationService.findOne(locationId))
+    //   return "Something that says bad request;"
+
     return this.charactersService.create(createCharacterDto);
   }
 

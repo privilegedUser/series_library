@@ -1,19 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Comment } from './entities/comment.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommentsService {
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  constructor(
+    @InjectRepository(Comment)
+    private readonly commentRepository: Repository<Comment>
+  ) { }
+
+  async create(createCommentDto: CreateCommentDto) {
+    const comment = this.commentRepository.create(createCommentDto);
+
+    return await this.commentRepository.save(comment);
   }
 
-  findAll() {
-    return `This action returns all comments`;
+  async findAll() {
+    return await this.commentRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  async findOne(id: number) {
+    return await this.commentRepository.findOne({
+      where: { id }
+    });
   }
 
   update(id: number, updateCommentDto: UpdateCommentDto) {
