@@ -121,7 +121,7 @@
 ## Episode
 - create `[POST]` `/episodes`
 	- throws BadRequestException if the comment is a duplicate of an existing duplicate
-	- request body:
+- request body:
 	```
 		{
 		    "name": "And so it begins",
@@ -130,7 +130,7 @@
 		}
 	````
 - response body:
-```
+	```
 		{
 		    "name": "And so it begins",
 		    "releaseDate": "2024-06-06",
@@ -138,7 +138,7 @@
 		    "id": 1,
 		    "createdAt": "2024-06-06T11:03:11.189Z"
 		}
-```
+	```
 
 
 - findAll `[GET]` `/episodes`
@@ -203,7 +203,7 @@
 ## Location
 - create `[POST]` `/locations`
 	- throws BadRequestException if a location exists on the same longitude and latitude
-	- request body:
+- request body:
 ```
 		{
 			"name": "NYC",
@@ -287,7 +287,7 @@
 ## Comment
 - create `[POST]` `/comments`
 	- throws BadRequestException if the comment is a duplicate of an existing comment from the same IP address
-	- request body:
+- request body:
 ```
 		{
 		    "comment": "this can be a short or long comment; but wrap it up in 250 chars",
