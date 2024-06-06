@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
-import { UpdateEpisodeDto } from './dto/update-episode.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Episode } from './entities/episode.entity';
 import { Repository } from 'typeorm';
+import { Character } from 'src/characters/entities/character.entity';
 
 @Injectable()
 export class EpisodesService {
@@ -29,12 +29,6 @@ export class EpisodesService {
       .getMany();
   }
 
-  async findAllForCharacter(characterId: number) {
-    return this.episodeRepository
-      .createQueryBuilder("episode")
-      .getMany();
-  }
-
   async findOne(id: number) {
     return await this.episodeRepository.findOne({
       where: { id },
@@ -43,13 +37,5 @@ export class EpisodesService {
         episodeComments: true
       }
     });
-  }
-
-  update(id: number, updateEpisodeDto: UpdateEpisodeDto) {
-    return `This action updates a #${id} episode`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} episode`;
   }
 }

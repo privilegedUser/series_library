@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
-import { UpdateCharacterDto } from './dto/update-character.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Character } from './entities/character.entity';
 import { Repository } from 'typeorm';
@@ -56,11 +55,10 @@ export class CharactersService {
     });
   }
 
-  update(id: number, updateCharacterDto: UpdateCharacterDto) {
-    return `This action updates a #${id} character`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} character`;
+  async findEpisodeFeatures(id: number) {
+    return this.characterRepository.createQueryBuilder('character')
+      .relation(Character, "episodes")
+      .of(id)
+      .loadMany();
   }
 }
