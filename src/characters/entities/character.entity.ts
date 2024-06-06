@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Location } from "src/locations/entities/location.entity";
 import { Episode } from "src/episodes/entities/episode.entity";
 import { Gender } from "../models/gender";
@@ -32,7 +32,20 @@ export class Character {
     location?: Location;
 
     @ManyToMany(() => Episode, (episode) => episode.characters)
-    episodes?: Episode[];
+    @JoinTable({
+        name: "character_episode",
+        joinColumn: {
+            name: "character_id",
+            referencedColumnName: "id",
+            foreignKeyConstraintName: "character_episode_character_id"
+        },
+        inverseJoinColumn: {
+            name: "episode_id",
+            referencedColumnName: "id",
+            foreignKeyConstraintName: "character_episode_episode_id"
+        }
+    })
+    episodes: Episode[];
 
     @Column({ name: "created_at", type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;

@@ -4,6 +4,8 @@ import { UpdateCharacterDto } from './dto/update-character.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Character } from './entities/character.entity';
 import { Repository } from 'typeorm';
+import { Episode } from 'src/episodes/entities/episode.entity';
+import { RetrieveCharactersDto } from './dto/retrieve-characters.dto';
 
 @Injectable()
 export class CharactersService {
@@ -13,12 +15,18 @@ export class CharactersService {
   ) { }
 
   async create(createCharacterDto: CreateCharacterDto) {
-    const character = this.characterRepository.create(createCharacterDto);
+    var character = this.characterRepository.create(createCharacterDto);
+
+    if (createCharacterDto.episodeIds)
+      character.episodes = createCharacterDto.episodeIds.map(id => ({
+        ...new Episode(), id
+      }))
 
     return await this.characterRepository.save(character);
   }
 
-  async findAll() {
+  async findAll(retrieveCharactersDto?: RetrieveCharactersDto) {
+
     return await this.characterRepository.find({
       relations: {
         location: true,

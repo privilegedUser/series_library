@@ -1,6 +1,6 @@
 import { Character } from "src/characters/entities/character.entity";
 import { Comment } from "src/comments/entities/comment.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("episodes")
 export class Episode {
@@ -17,7 +17,6 @@ export class Episode {
     episodeCode: string;
 
     @ManyToMany(() => Character, (character) => character.episodes)
-    @JoinTable()
     characters: Character[];
 
     @OneToMany(() => Comment, (comment) => comment.episode)
