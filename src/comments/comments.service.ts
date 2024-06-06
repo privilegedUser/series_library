@@ -19,7 +19,9 @@ export class CommentsService {
   }
 
   async findAll() {
-    return await this.commentRepository.find();
+    return await this.commentRepository.find({
+      order: { createdAt: "desc" }
+    });
   }
 
   async findOne(id: number) {
