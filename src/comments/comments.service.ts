@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from './entities/comment.entity';
@@ -12,9 +12,15 @@ export class CommentsService {
   ) { }
 
   async create(createCommentDto: CreateCommentDto) {
-    const comment = this.commentRepository.create(createCommentDto);
+    const newComment = this.commentRepository.create(createCommentDto);
 
-    return await this.commentRepository.save(comment);
+    const duplicateComment = await this.commentRepository
+      .findOne({ where: { comment: newComment.comment, ipAddressLocation: newComment.ipAddressLocation } });
+    
+    if (duplicateComment)
+      throw new BadRequestException("Duplicate comment.");
+
+    return await this.commentRepository.save(newComment);
   }
 
   async findAll() {

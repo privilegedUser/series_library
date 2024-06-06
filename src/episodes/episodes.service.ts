@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Episode } from './entities/episode.entity';
 import { Repository } from 'typeorm';
-import { Character } from 'src/characters/entities/character.entity';
 
 @Injectable()
 export class EpisodesService {
@@ -14,6 +13,12 @@ export class EpisodesService {
 
   async create(createEpisodeDto: CreateEpisodeDto) {
     const episode = this.episodeRepository.create(createEpisodeDto);
+
+    const duplicateEpisode = await this.episodeRepository
+      .findOne({ where: { episodeCode: episode.episodeCode } });
+    
+    if (duplicateEpisode)
+      throw new BadRequestException("Duplicate episode.");
 
     return await this.episodeRepository.save(episode);
   }
