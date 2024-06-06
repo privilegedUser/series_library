@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from './entities/comment.entity';
@@ -30,8 +30,13 @@ export class CommentsService {
   }
 
   async findOne(id: number) {
-    return await this.commentRepository.findOne({
+    const comment = await this.commentRepository.findOne({
       where: { id }
     });
+
+    if (!comment)
+      throw new NotFoundException(`Comment with id: ${id} not found.`);
+
+    return location;
   }
 }

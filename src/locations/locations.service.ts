@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Location } from './entities/location.entity';
@@ -32,8 +32,13 @@ export class LocationsService {
   }
 
   async findOne(id: number) {
-    return await this.locationRepository.findOne({
+    const location = await this.locationRepository.findOne({
       where: { id }
     });
+
+    if (!location)
+      throw new NotFoundException(`Location with id: ${id} not found.`);
+
+    return location;
   }
 }

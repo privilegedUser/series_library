@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Episode } from './entities/episode.entity';
@@ -35,12 +35,17 @@ export class EpisodesService {
   }
 
   async findOne(id: number) {
-    return await this.episodeRepository.findOne({
+    const episode = await this.episodeRepository.findOne({
       where: { id },
       relations: {
         characters: true,
         episodeComments: true
       }
     });
+
+    if (!episode)
+      throw new NotFoundException(`Episode with id: ${id} not found.`);
+
+    return location;
   }
 }
