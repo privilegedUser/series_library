@@ -1,7 +1,8 @@
 import { Character } from "src/characters/entities/character.entity";
 import { Comment } from "src/comments/entities/comment.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
+@Unique(["episodeCode"])
 @Entity("episodes")
 export class Episode {
     @PrimaryGeneratedColumn()

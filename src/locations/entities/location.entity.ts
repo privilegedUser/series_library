@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Character } from "src/characters/entities/character.entity";
 
+@Unique(["longitude", "latitude"])
 @Entity("locations")
 export class Location {
     @PrimaryGeneratedColumn()

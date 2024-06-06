@@ -1,6 +1,7 @@
 import { Episode } from "src/episodes/entities/episode.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
+@Unique(["comment", "episodeId", "ipAddressLocation"])
 @Entity('comments')
 export class Comment {
     @PrimaryGeneratedColumn()

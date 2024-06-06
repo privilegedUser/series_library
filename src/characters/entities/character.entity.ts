@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Location } from "src/locations/entities/location.entity";
 import { Episode } from "src/episodes/entities/episode.entity";
 import { Gender } from "../models/gender";
 import { Status } from "../models/status";
 
+@Unique(["firstName", "lastName", "status", "stateOfOrigin", "gender", "locationId"])
 @Entity("characters")
 export class Character {
     @PrimaryGeneratedColumn()
